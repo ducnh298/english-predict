@@ -2,7 +2,11 @@
 
 💬An Auto-Complete program using N-Gram Models. You can view the deployed website [here](https://autocomplete-ngram.herokuapp.com/).
 
+---
+
 ![](https://github.com/SauravMaheshkar/Auto-Completion-using-N-Gram-Models/blob/master/assets/app.png)
+
+---
 
 The dataset used for obtaining the n-grams and the vocabulary can be found [here](https://www.kaggle.com/crmercado/tweets-blogs-news-swiftkey-dataset-4million) and was uploaded by [Carlos Mercado](https://www.linkedin.com/in/crmercado/).
 
