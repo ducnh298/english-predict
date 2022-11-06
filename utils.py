@@ -1,3 +1,8 @@
+class Suggestion:
+    def __init__(self,word,prob) -> None:
+       self.word = word
+       self.prob = prob
+
 def get_suggestions(previous_tokens, n_gram_counts_list, vocabulary, k=1.0, start_with=None):
     """
     Loops over all n-gram counts and returns all suggestions
@@ -17,7 +22,7 @@ def get_suggestions(previous_tokens, n_gram_counts_list, vocabulary, k=1.0, star
 
     # See how many models we have
     count = len(n_gram_counts_list)
-
+    print(count)
     # Empty list for suggestions
     suggestions = []
 
@@ -25,7 +30,8 @@ def get_suggestions(previous_tokens, n_gram_counts_list, vocabulary, k=1.0, star
 
     # Loop over counts
     for i in range(count-1):
-
+        suggestion = []
+        print(i)
         # get n and nplus1 counts
         n_gram_counts = n_gram_counts_list[i]
         nplus1_gram_counts = n_gram_counts_list[i+1]
@@ -35,9 +41,12 @@ def get_suggestions(previous_tokens, n_gram_counts_list, vocabulary, k=1.0, star
                                     nplus1_gram_counts, vocabulary,
                                     k=k, start_with=start_with)
         # Append to list
-        suggestions.append(suggestion)
-
-    return suggestions
+        suggestions += suggestion
+        
+    suggestions.sort(key=lambda x: x.prob, reverse=True)
+    for item in suggestions:
+        print("          ",item.word," - ",item.prob)
+    return map(lambda x: x.word,suggestions)
 
 def auto_complete(previous_tokens, n_gram_counts, nplus1_gram_counts, vocabulary, k=1.0, start_with=None):
     """
@@ -69,8 +78,9 @@ def auto_complete(previous_tokens, n_gram_counts, nplus1_gram_counts, vocabulary
     probabilities = probs(previous_n_gram,n_gram_counts, nplus1_gram_counts,vocabulary, k=k)
 
     # Intialize the suggestion and max probability
-    suggestion = None
-    max_prob = 0
+    # suggestion = None
+    suggestions = []
+    max_prob = 0.03
 
     # Iterate over all words and probabilites, returning the max.
     # We also add a check if the start_with parameter is provided
@@ -83,10 +93,10 @@ def auto_complete(previous_tokens, n_gram_counts, nplus1_gram_counts, vocabulary
 
         if prob > max_prob:
 
-            suggestion = word
-            max_prob = prob
-
-    return suggestion, max_prob
+            suggestion = Suggestion(word,prob)
+            suggestions.append(suggestion)
+    
+    return suggestions
 
 def probs(previous_n_gram, n_gram_counts, nplus1_gram_counts, vocabulary, k=1.0) -> 'dict':
   """
