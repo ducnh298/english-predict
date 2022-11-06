@@ -5,9 +5,10 @@ from utils import *
 
 @st.cache
 def get_predictions(input_tokens, starts, k = 1.0):
-    n_gram_counts_list = pickle.load(open('data/en_counts.txt', 'rb'))
-    vocabulary = pickle.load(open('data/vocab.txt', 'rb'))
-    suggestion = get_suggestions(input_tokens, n_gram_counts_list, vocabulary, k=k, start_with = starts)
+    n_gram_counts_list4 = pickle.load(open('data/en_counts.txt', 'rb'))
+    vocabulary4 = pickle.load(open('data/vocab.txt', 'rb'))
+    print("load done!")
+    suggestion = get_suggestions(input_tokens, n_gram_counts_list4, vocabulary4, k=k, start_with = starts)
     return suggestion
 
 ## Page Title
@@ -31,7 +32,8 @@ tokenized = sentence.split()
 
 if st.button("Predict"):
     suggestion = get_predictions(tokenized, starts, k)
-    st.write(suggestion[0])
+    for item in suggestion:
+        st.write(item)
 
 
 st.markdown("---")
